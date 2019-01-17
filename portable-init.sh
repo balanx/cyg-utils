@@ -12,6 +12,7 @@ if ! grep -F "$USER_SID" /etc/passwd &>/dev/null; then
     echo $USERNAME:unused:1001:$GID:$USER_SID:$HOME:/bin/bash >> /etc/passwd
 fi
 
+exit 0
 # already set in cygwin-portable.cmd:
 # export CYGWIN_ROOT=$(cygpath -w /)
 
