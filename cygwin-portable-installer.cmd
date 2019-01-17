@@ -188,6 +188,22 @@ if "%DELETE_CYGWIN_PACKAGE_CACHE%" == "yes" (
     rd /s /q "%CYGWIN_ROOT%\..\cygwin-pkg-cache"
 )
 
+::
+echo Replacing [/etc/fstab]...
+(
+    echo # /etc/fstab
+    echo # IMPORTANT: this files is recreated on each start by cygwin-portable.cmd
+    echo #
+    echo #    This file is read once by the first process in a Cygwin process tree.
+    echo #    To pick up changes, restart all Cygwin processes.  For a description
+    echo #    see https://cygwin.com/cygwin-ug-net/using.html#mount-table
+    echo.
+    echo # noacl = disable Cygwin's - apparently broken - special ACL treatment which prevents apt-cyg and other programs from working
+    echo %CYGWIN_ROOT%/bin  /usr/bin ntfs binary,auto,noacl           0  0
+    echo %CYGWIN_ROOT%/lib  /usr/lib ntfs binary,auto,noacl           0  0
+    echo %CYGWIN_ROOT%      /        ntfs override,binary,auto,noacl  0  0
+    echo none /cygdrive cygdrive binary,noacl,posix=0,user 0 0
+) > %CYGWIN_ROOT%\etc\fstab
 
 set Start_cmd=%INSTALL_ROOT%cygwin-portable.cmd
 
