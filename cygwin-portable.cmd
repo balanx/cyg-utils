@@ -20,11 +20,12 @@ set GRP=
 %CYGWIN_DRIVE%
 chdir "%CYGWIN_ROOT%\bin"
 
-bash --login -i
-REM bash --login -c %*
-REM mintty -T 'Command Prompt' -
+if NOT "%*" == "0" (
+    REM mintty -T 'Command Prompt' -
+    bash --login -i
+    goto :eof
+)
 
-goto :eof
 
 echo Replacing [/etc/fstab]...
 (
@@ -42,3 +43,7 @@ echo Replacing [/etc/fstab]...
     echo none /cygdrive cygdrive binary,noacl,posix=0,user 0 0
 ) > %CYGWIN_ROOT%\etc\fstab
 
+
+bash --login -c '%CYGWIN_ROOT:\=/%/../portable-init.sh'
+
+:eof
