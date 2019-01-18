@@ -39,7 +39,7 @@ function usage()
   echo "  \"apt-cyg remove <package names>\" to remove packages"
   echo "  \"apt-cyg update\" to update setup.ini"
   echo "  \"apt-cyg show\" to show installed packages"
-  echo "  \"apt-cyg find <patterns>\" to find packages matching patterns"
+  echo "  \"apt-cyg search <patterns>\" to search packages matching patterns"
   echo "  \"apt-cyg describe <patterns>\" to describe packages matching patterns"
   echo "  \"apt-cyg packageof <commands or files>\" to locate parent packages"
   echo "Options:"
@@ -187,7 +187,7 @@ do
       shift
     ;;
 
-    update|show|find|describe|packageof|install|remove)
+    update|show|search|describe|packageof|install|remove)
       if test "-$command-" = "--"
       then
         command=$1
@@ -240,7 +240,7 @@ case "$command" in
   ;;
 
 
-  find)
+  search)
 
     checkpackages
     findworkspace
