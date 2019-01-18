@@ -38,7 +38,7 @@ set PROXY_HOST=
 set PROXY_PORT=8080
 
 :: change the URL to the closest mirror https://cygwin.com/mirrors.html
-set CYGWIN_MIRROR=http://linux.rz.ruhr-uni-bochum.de/download/cygwin
+set CYGWIN_MIRROR=http://mirrors.ustc.edu.cn/cygwin
 
 :: choose a user name under Cygwin
 set CYGWIN_USERNAME=root
