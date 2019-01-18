@@ -365,7 +365,7 @@ case "$command" in
 
     # check the md5
     digest=`cat "desc" | awk '/^install: / { print $4; exit }'`
-    digactual=`md5sum $file | awk '{print $1}'`
+    digactual=`sha512sum $file | awk '{print $1}'`
     if ! test $digest = $digactual
     then
       echo MD5 sum did not match, exiting
