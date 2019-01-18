@@ -192,11 +192,11 @@ echo.
 echo ###########################################################
 echo # /etc/fstab and /etc/passwd initialization.
 echo ###########################################################
-cygwin-portable.cmd 0
+%CYGWIN_ROOT%\..\cygwin-start.cmd 0
 echo.
 
 
-set Start_cmd=%INSTALL_ROOT%cygwin-portable.cmd
+set Start_cmd=%INSTALL_ROOT%cygwin-start.cmd
 
 echo.
 echo ###########################################################
