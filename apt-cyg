@@ -47,6 +47,7 @@ function usage()
   echo "  --cache, -c <dir>  : set cache"
   echo "  --file, -f <file>  : read package names from file"
   echo "  --noupdate, -u     : don't update setup.ini from mirror"
+  echo "  --ignore-case, -i  : Ignore case distinctions in <patterns> when finding packages"
   echo "  --help"
   echo "  --version"
 }
@@ -129,6 +130,7 @@ noscripts=0
 noupdate=0
 file=""
 dofile=0
+nocase=0
 command=""
 filepackages=""
 packages=""
@@ -177,6 +179,11 @@ do
       else
         echo 1>&2 No file name provided, ignoring $1
       fi
+      shift
+    ;;
+
+    --ignore-case|-i)
+      nocase=1
       shift
     ;;
 
@@ -243,11 +250,12 @@ case "$command" in
     do
       echo ""
       echo Searching for installed packages matching $pkg:
-      awk '/[^ ]+ [^ ]+ 0/ {if ($1 ~ query) print $1}' query="$pkg" /etc/setup/installed.db
+      cat /etc/setup/installed.db | awk -v query="$pkg" -v nocase=$nocase \
+        'BEGIN{IGNORECASE=nocase} /[^ ]+ [^ ]+ 0/ {if ($1 ~ query) print $1}'
       echo ""
       echo Searching for installable packages matching $pkg:
-      cat setup.ini | awk -v query="$pkg" \
-        'BEGIN{RS="\n\n@ "; FS="\n"; ORS="\n"} {if ($1 ~ query) {print $1}}'
+      cat setup.ini | awk -v query="$pkg" -v nocase=$nocase \
+        'BEGIN{RS="\n\n@ "; FS="\n"; ORS="\n"; IGNORECASE=nocase} {if ($1 ~ query) {print $1}}'
     done
 
   ;;
@@ -261,8 +269,8 @@ case "$command" in
     for pkg in $packages
     do
       echo ""
-      cat setup.ini | awk -v query="$pkg" \
-        'BEGIN{RS="\n\n@ "; FS="\n"; ORS="\n"} {if ($1 ~ query) {print $0 "\n"}}'
+      cat setup.ini | awk -v nocase="$nocase" -v query="$pkg" \
+        'BEGIN{RS="\n\n@ "; FS="\n"; ORS="\n"; IGNORECASE=nocase} {if ($1 ~ query) {print $0 "\n"}}'
     done
 
   ;;
