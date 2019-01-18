@@ -45,7 +45,8 @@ function usage()
   echo "Options:"
   echo "  --mirror, -m <url> : set mirror"
   echo "  --cache, -c <dir>  : set cache"
-  echo "  --file, -f <file>  : read package names from file"
+  echo "  --file, -l <file>  : read package names from file"
+  echo "  --force, -f        : force re-install package"
   echo "  --noupdate, -u     : don't update setup.ini from mirror"
   echo "  --ignore-case, -i  : Ignore case distinctions in <patterns> when finding packages"
   echo "  --help"
@@ -130,6 +131,7 @@ noscripts=0
 noupdate=0
 file=""
 dofile=0
+force=0
 nocase=0
 command=""
 filepackages=""
@@ -170,7 +172,7 @@ do
       exit 0
     ;;
 
-    --file|-f)
+    --file|-l)
       if ! test "-$2-" = "--"
       then
         file="$2"
@@ -179,6 +181,11 @@ do
       else
         echo 1>&2 No file name provided, ignoring $1
       fi
+      shift
+    ;;
+
+    --force|-f)
+      force=1
       shift
     ;;
 
@@ -310,7 +317,7 @@ case "$command" in
     do
 
     already=`grep -c "^$pkg " /etc/setup/installed.db`
-    if test $already -ge 1
+    if [ $already -ge 1 -a $force -eq 0 ]
     then
       echo Package $pkg is already installed, skipping
       continue
@@ -397,7 +404,7 @@ case "$command" in
       for package in $requires
       do
         already=`grep -c "^$package " /etc/setup/installed.db`
-        if test $already -ge 1
+        if [ $already -ge 1 -a $force -eq 0 ]
         then
           echo Package $package is already installed, skipping
           continue
@@ -438,13 +445,13 @@ case "$command" in
     do
 
     already=`grep -c "^$pkg " /etc/setup/installed.db`
-    if test $already = 0
+    if [ $already = 0 -a $force -eq 0 ]
     then
       echo Package $pkg is not installed, skipping
       continue
     fi
 
-    dontremove="cygwin coreutils gawk bzip2 tar wget bash"
+    dontremove="cygwin coreutils gawk bzip2 xz tar wget bash"
     for req in $dontremove
     do
       if test "-$pkg-" = "-$req-"
