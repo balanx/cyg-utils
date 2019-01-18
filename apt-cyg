@@ -133,6 +133,7 @@ command=""
 filepackages=""
 packages=""
 
+function process_args () {
 while test $# -gt 0
 do
   case "$1" in
@@ -198,7 +199,9 @@ do
 
   esac
 done
+}
 
+process_args "$@"
 
 if test $dofile = 1
 then
