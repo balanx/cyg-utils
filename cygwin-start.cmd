@@ -21,8 +21,8 @@ set GRP=
 chdir "%CYGWIN_ROOT%\bin"
 
 if NOT "%*" == "0" (
-    REM mintty -T 'Command Prompt' -
-    bash --login -i
+    mintty -T 'Command Prompt' -
+    REM bash --login -i
     goto :eof
 )
 
