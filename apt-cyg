@@ -338,10 +338,16 @@ case "$command" in
 
     # pick the latest version, which comes first
     install=`cat "release/$pkg/desc" | awk '/^install: / { print $2; exit }'`
+    category=`cat "release/$pkg/desc" | awk '/^category: / { print $2; exit }'`
+    requires=`cat "release/$pkg/desc" | awk '/^requires: / { print $2; exit }'`
 
     if test "-$install-" = "--"
     then
-      echo "Could not find \"install\" in package description: obsolete package?"
+      if [[ "$category" == "_obsolete" && ! -z "$requires" ]] ; then
+        echo "$pkg is obsolete and replaced by: $requires"
+      else
+        echo "Could not find \"install\" in package description: obsolete package?"
+      fi
       exit 1
     fi
 
