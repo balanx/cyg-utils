@@ -44,7 +44,7 @@ set CYGWIN_MIRROR=http://linux.rz.ruhr-uni-bochum.de/download/cygwin
 set CYGWIN_USERNAME=root
 
 :: select the packages to be installed automatically via apt-cyg
-set CYGWIN_PACKAGES=bash-completion,bc,curl,expect,git,git-svn,gnupg,inetutils,mc,nc,openssh,openssl,perl,python,pv,ssh-pageant,subversion,unzip,vim,wget,zip,zstd
+set CYGWIN_PACKAGES=bash,gawk,tar,wget,xz,bzip2,dos2unix
 
 :: if set to 'yes' the local package cache created by cygwin setup will be deleted after installation/update
 set DELETE_CYGWIN_PACKAGE_CACHE=yes
@@ -182,7 +182,7 @@ echo Running Cygwin setup...
  --upgrade-also ^
  --no-replaceonreboot ^
  --quiet-mode ^
- --packages dos2unix,wget,%CYGWIN_PACKAGES% || goto :fail
+ --packages %CYGWIN_PACKAGES% || goto :fail
 
 if "%DELETE_CYGWIN_PACKAGE_CACHE%" == "yes" (
     rd /s /q "%CYGWIN_ROOT%\..\cygwin-pkg-cache"
