@@ -47,7 +47,7 @@ set CYGWIN_USERNAME=root
 set CYGWIN_PACKAGES=bash,gawk,tar,wget,xz,bzip2,dos2unix
 
 :: if set to 'yes' the local package cache created by cygwin setup will be deleted after installation/update
-set DELETE_CYGWIN_PACKAGE_CACHE=yes
+set DELETE_CYGWIN_PACKAGE_CACHE=no
 
 :: if set to 'yes' the apt-cyg command line package manager (https://github.com/transcode-open/apt-cyg) will be installed automatically
 set INSTALL_APT_CYG=yes
