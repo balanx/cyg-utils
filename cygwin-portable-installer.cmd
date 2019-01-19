@@ -147,10 +147,9 @@ if "%PROCESSOR_ARCHITEW6432%" == "AMD64" (
     )
 )
 
-if exist "%CYGWIN_ROOT%\%CYGWIN_SETUP%" (
-    del "%CYGWIN_ROOT%\%CYGWIN_SETUP%" || goto :fail
+if NOT exist "%CYGWIN_ROOT%\setup\%CYGWIN_SETUP%" (
+    cscript //Nologo %DOWNLOADER% http://cygwin.org/%CYGWIN_SETUP% "%CYGWIN_ROOT%\setup\%CYGWIN_SETUP%" || goto :fail
 )
-cscript //Nologo %DOWNLOADER% http://cygwin.org/%CYGWIN_SETUP% "%CYGWIN_ROOT%\%CYGWIN_SETUP%" || goto :fail
 del "%DOWNLOADER%"
 
 :: Cygwin command line options: https://cygwin.com/faq/faq.html#faq.setup.cli
@@ -172,10 +171,10 @@ if "%INSTALL_TESTSSL_SH%" == "yes" (
 )
 
 echo Running Cygwin setup...
-"%CYGWIN_ROOT%\%CYGWIN_SETUP%" --no-admin ^
+"%CYGWIN_ROOT%\setup\%CYGWIN_SETUP%" --no-admin ^
  --site %CYGWIN_MIRROR% %CYGWIN_PROXY% ^
  --root "%CYGWIN_ROOT%" ^
- --local-package-dir "%CYGWIN_ROOT%\..\cygwin-pkg-cache" ^
+ --local-package-dir "%CYGWIN_ROOT%\setup" ^
  --no-shortcuts ^
  --no-desktop ^
  --delete-orphans ^
@@ -185,7 +184,7 @@ echo Running Cygwin setup...
  --packages %CYGWIN_PACKAGES% || goto :fail
 
 if "%DELETE_CYGWIN_PACKAGE_CACHE%" == "yes" (
-    rd /s /q "%CYGWIN_ROOT%\..\cygwin-pkg-cache"
+    rd /s /q "%CYGWIN_ROOT%\setup"
 )
 
 echo.
