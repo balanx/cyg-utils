@@ -37,7 +37,7 @@ function usage()
   echo apt-cyg: Installs and removes Cygwin packages.
   echo "  \"apt-cyg install <package names>\" to install packages"
   echo "  \"apt-cyg remove <package names>\" to remove packages"
-  echo "  \"apt-cyg update\" to update setup.ini"
+  echo "  \"apt-cyg update\" to update setup.ini, default NOT"
   echo "  \"apt-cyg show\" to show installed packages"
   echo "  \"apt-cyg search <patterns>\" to search packages matching patterns"
   echo "  \"apt-cyg describe <patterns>\" to describe packages matching patterns"
@@ -47,7 +47,6 @@ function usage()
   echo "  --cache, -c <dir>  : set cache"
   echo "  --file, -l <file>  : read package names from file"
   echo "  --force, -f        : force re-install package"
-  echo "  --noupdate, -u     : don't update setup.ini from mirror"
   echo "  --ignore-case, -i  : Ignore case distinctions in <patterns> when finding packages"
   echo "  --help"
   echo "  --version"
@@ -129,7 +128,7 @@ function checkpackages()
 
 # process options
 noscripts=0
-noupdate=0
+noupdate=1
 file=""
 dofile=0
 force=0
@@ -155,11 +154,6 @@ do
 
     --noscripts)
       noscripts=1
-      shift
-    ;;
-
-    --noupdate|-u)
-      noupdate=1
       shift
     ;;
 
@@ -199,6 +193,7 @@ do
       if test "-$command-" = "--"
       then
         command=$1
+        [ "-$command-" = "-update-" ] && noupdate=0
       else
         packages="$packages $1"
       fi
