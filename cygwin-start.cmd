@@ -44,7 +44,7 @@ echo Replacing [/etc/fstab]...
 ) > %CYGWIN_ROOT%\etc\fstab
 
 
-set CYGWIN_INIT='%CYGWIN_ROOT:\=/%/../portable-init.sh'
-bash --login -c '%CYGWIN_INIT%; ln -sf %CYGWIN_INIT% /bin'
+set CYGWIN_INST='%CYGWIN_ROOT:\=/%/..'
+bash --login -c '%CYGWIN_INST%/portable-init.sh; ln -sf %CYGWIN_INST%/portable-init.sh /bin; ln -sf %CYGWIN_INST%/apt-cyg /bin'
 
 :eof
